@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transport Management Report</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #eef1f5;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #172033;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 252px;
+            height: 100vh;
+            background: #192b3d;
+            color: white;
+            z-index: 1000;
+        }
+
+        .brand {
+            height: 224px;
+            padding: 28px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand-icon {
+            font-size: 30px;
+            color: #087cff;
+            margin-bottom: 10px;
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: #7890a8;
+            margin-top: 8px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            letter-spacing: 1.2px;
+            color: #6e8499;
+            padding: 18px 20px 8px;
+            font-weight: 700;
+        }
+
+        .nav-link-custom {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 13px 22px;
+            color: #c6d2df;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .nav-link-custom i {
+            width: 18px;
+            font-size: 17px;
+        }
+
+        .nav-link-custom:hover {
+            background: #213c5d;
+            color: white;
+        }
+
+        .nav-link-custom.active {
+            background: #1e3e67;
+            color: white;
+            border-left: 3px solid #087cff;
+            padding-left: 19px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 252px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 94px;
+            background: white;
+            border-bottom: 1px solid #e3e7ec;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .page-title {
+            font-size: 21px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            color: #087cff;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* =========================
+           REPORT
+        ========================= */
+
+        .report-container {
+            padding: 28px;
+        }
+
+        .report-paper {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 45px 50px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .report-header {
+            text-align: center;
+            border-bottom: 2px solid #192b3d;
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+
+        .report-logo {
+            font-size: 38px;
+            color: #087cff;
+            margin-bottom: 8px;
+        }
+
+        .report-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #192b3d;
+            margin-bottom: 6px;
+        }
+
+        .report-subtitle {
+            font-size: 15px;
+            color: #657386;
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 22px;
+            font-size: 13px;
+            color: #526174;
+        }
+
+        .report-meta strong {
+            color: #172033;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .report-section {
+            margin-top: 30px;
+        }
+
+        .section-heading {
+            font-size: 18px;
+            font-weight: 700;
+            color: #192b3d;
+            border-left: 4px solid #087cff;
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            color: #526174;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .summary-box {
+            border: 1px solid #dfe5eb;
+            padding: 16px;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .summary-box .number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #087cff;
+        }
+
+        .summary-box .label {
+            font-size: 12px;
+            color: #657386;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .report-table th {
+            background: #192b3d;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .report-table td {
+            padding: 10px;
+            border: 1px solid #dfe4ea;
+            vertical-align: middle;
+        }
+
+        .report-table tbody tr:nth-child(even) {
+            background: #f7f9fb;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #dff5e5;
+            color: #19733b;
+        }
+
+        .status-warning {
+            background: #fff0c7;
+            color: #8a6500;
+        }
+
+        .status-danger {
+            background: #f9dddd;
+            color: #a12626;
+        }
+
+        .status-info {
+            background: #dceeff;
+            color: #155c91;
+        }
+
+        /* =========================
+           FINANCIAL SUMMARY
+        ========================= */
+
+        .financial-box {
+            border: 1px solid #dfe5eb;
+            padding: 20px;
+            background: #f8fafc;
+        }
+
+        .financial-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e7ec;
+            font-size: 14px;
+        }
+
+        .financial-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .report-footer {
+            margin-top: 40px;
+            padding-top: 18px;
+            border-top: 1px solid #dce2e8;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #68778a;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+            }
+
+            .report-paper {
+                padding: 30px;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .report-container {
+                padding: 10px;
+            }
+
+            .report-paper {
+                padding: 20px;
+            }
+
+            .report-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-table {
+                min-width: 700px;
+            }
+        }
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .sidebar,
+            .topbar,
+            .no-print {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .report-container {
+                padding: 0;
+            }
+
+            .report-paper {
+                max-width: none;
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            .report-section {
+                break-inside: avoid;
+            }
+
+            .report-table {
+                font-size: 11px;
+            }
+
+            .report-table th {
+                background: #192b3d !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="bi bi-bus-front-fill"></i>
+        </div>
+
+        <div class="brand-title">
+            Transport Management
+        </div>
+
+        <div class="brand-subtitle">
+            Operations System
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        MAIN MENU
+    </div>
+
+    <a href="index.html" class="nav-link-custom">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="vehicles.html" class="nav-link-custom">
+        <i class="bi bi-truck"></i>
+        <span>Vehicles</span>
+    </a>
+
+    <a href="drivers.html" class="nav-link-custom">
+        <i class="bi bi-person-badge"></i>
+        <span>Drivers</span>
+    </a>
+
+    <a href="routes.html" class="nav-link-custom">
+        <i class="bi bi-map"></i>
+        <span>Routes</span>
+    </a>
+
+    <a href="trips.html" class="nav-link-custom">
+        <i class="bi bi-calendar-check"></i>
+        <span>Trips</span>
+    </a>
+
+    <a href="maintenance.html" class="nav-link-custom">
+        <i class="bi bi-tools"></i>
+        <span>Maintenance</span>
+    </a>
+
+    <div class="menu-title">
+        ANALYTICS
+    </div>
+
+    <a href="reports.html" class="nav-link-custom active">
+        <i class="bi bi-file-earmark-bar-graph"></i>
+        <span>Reports</span>
+    </a>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div class="page-title">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            Transport Reports
+        </div>
+
+        <div class="topbar-actions no-print">
+
+            <button
+                class="btn btn-outline-secondary"
+                onclick="window.print()">
+
+                <i class="bi bi-printer"></i>
+                Print Report
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         REPORT PAPER
+    ========================= -->
+
+    <div class="report-container">
+
+        <div class="report-paper">
+
+            <!-- REPORT HEADER -->
+
+            <div class="report-header">
+
+                <div class="report-logo">
+                    <i class="bi bi-bus-front-fill"></i>
+                </div>
+
+                <div class="report-title">
+                    TRANSPORT MANAGEMENT REPORT
+                </div>
+
+                <div class="report-subtitle">
+                    Vehicle, Driver, Route, Trip & Maintenance Operations
+                </div>
+
+                <div class="report-meta">
+
+                    <div>
+                        <strong>Report Type:</strong>
+                        Comprehensive Operations Report
+                    </div>
+
+                    <div>
+                        <strong>Generated:</strong>
+                        <span id="reportGeneratedDate">
+                            Loading...
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 1. EXECUTIVE SUMMARY
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    1. Executive Summary
+                </div>
+
+                <p
+                    class="section-description"
+                    id="executiveSummary">
+
+                    The transport management system provides
+                    centralized monitoring of vehicles, drivers,
+                    routes, trips and vehicle maintenance activities.
+                    This report presents the current operational
+                    status of the transport fleet and related
+                    activities.
+
+                </p>
+
+                <div class="summary-grid">
+
+                    <div class="summary-box">
+
+                        <div
+                            class="number"
+                            id="totalVehicles">
+                            -
+                        </div>
+
+                        <div class="label">
+                            Total Vehicles
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <div
+                            class="number"
+                            id="totalDrivers">
+                            -
+                        </div>
+
+                        <div class="label">
+                            Total Drivers
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <div
+                            class="number"
+                            id="totalRoutes">
+                            -
+                        </div>
+
+                        <div class="label">
+                            Total Routes
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <div
+                            class="number"
+                            id="totalTrips">
+                            -
+                        </div>
+
+                        <div class="label">
+                            Total Trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 2. VEHICLE REPORT
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    2. Vehicle Report
+                </div>
+
+                <p class="section-description">
+
+                    This section provides the current status
+                    and service information of vehicles registered
+                    in the transport management system.
+
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="report-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Registration Number</th>
+                                <th>Vehicle Type</th>
+                                <th>Model</th>
+                                <th>Capacity</th>
+                                <th>Fuel Type</th>
+                                <th>Status</th>
+                                <th>Next Service</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="vehicleReportTable">
+
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    Loading vehicle data...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 3. DRIVER REPORT
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    3. Driver Report
+                </div>
+
+                <p class="section-description">
+
+                    This section summarizes registered drivers,
+                    their experience, assigned vehicles and
+                    current availability status.
+
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="report-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Driver Name</th>
+                                <th>License Number</th>
+                                <th>Phone</th>
+                                <th>Experience</th>
+                                <th>Assigned Vehicle</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="driverReportTable">
+
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    Loading driver data...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 4. TRIP REPORT
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    4. Trip Report
+                </div>
+
+                <p class="section-description">
+
+                    This section records scheduled and completed
+                    transport trips, including route, vehicle,
+                    driver and trip status information.
+
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="report-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Vehicle</th>
+                                <th>Driver</th>
+                                <th>Route</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tripReportTable">
+
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    Loading trip data...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 5. MAINTENANCE REPORT
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    5. Maintenance Report
+                </div>
+
+                <p class="section-description">
+
+                    This section summarizes vehicle maintenance
+                    activities, service dates, maintenance costs
+                    and completion status.
+
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="report-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Vehicle</th>
+                                <th>Maintenance Type</th>
+                                <th>Service Date</th>
+                                <th>Description</th>
+                                <th>Cost</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="maintenanceReportTable">
+
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    Loading maintenance data...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 6. FINANCIAL SUMMARY
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    6. Financial Summary
+                </div>
+
+                <div class="financial-box">
+
+                    <div class="financial-row">
+
+                        <span>
+                            Total Maintenance Records
+                        </span>
+
+                        <span id="financialMaintenanceCount">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="financial-row">
+
+                        <span>
+                            Completed Maintenance
+                        </span>
+
+                        <span id="financialCompletedMaintenance">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="financial-row">
+
+                        <span>
+                            Maintenance In Progress
+                        </span>
+
+                        <span id="financialInProgressMaintenance">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="financial-row">
+
+                        <span>
+                            Scheduled Maintenance
+                        </span>
+
+                        <span id="financialScheduledMaintenance">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="financial-row">
+
+                        <span>
+                            Total Maintenance Expenditure
+                        </span>
+
+                        <span id="financialTotalCost">
+                            ₹0.00
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 7. OPERATIONAL SUMMARY
+            ========================= -->
+
+            <section class="report-section">
+
+                <div class="section-heading">
+                    7. Operational Summary
+                </div>
+
+                <p
+                    class="section-description"
+                    id="operationalSummary">
+
+                    Operational observations will be generated
+                    automatically using the current vehicle,
+                    driver, trip and maintenance data.
+
+                </p>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <div class="report-footer">
+
+                <span>
+                    Transport Management System
+                </span>
+
+                <span>
+                    Confidential — Internal Operations Report
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/reports.js"></script>
+
+</body>
+</html>

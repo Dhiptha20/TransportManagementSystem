@@ -1,0 +1,155 @@
+/* style.css — Transport Management System */
+
+:root {
+    --sidebar-w: 235px;
+    --sidebar-bg: #1b2838;
+    --sidebar-hover: #263548;
+    --accent: #0d6efd;
+    --topbar-h: 58px;
+    --page-bg: #f1f3f7;
+    --card-shadow: 0 2px 10px rgba(0,0,0,.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: var(--page-bg); color: #2d3748; }
+
+/* ── Sidebar ── */
+#sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--sidebar-bg);
+    display: flex; flex-direction: column;
+    z-index: 1000; overflow-y: auto;
+}
+.sb-brand {
+    padding: 18px 18px 14px;
+    border-bottom: 1px solid #2d3f55;
+    text-decoration: none; display: block;
+}
+.sb-brand .bi { font-size: 1.7rem; color: var(--accent); }
+.sb-brand .brand-name { font-size: .82rem; font-weight: 700; color: #fff; display: block; margin-top: 4px; }
+.sb-brand .brand-sub  { font-size: .68rem; color: #7a8fa6; }
+
+.sb-section { font-size: .62rem; font-weight: 700; letter-spacing: 1px;
+    color: #4a6070; padding: 12px 18px 4px; text-transform: uppercase; }
+
+.sb-link {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 18px; color: #9ab0c4;
+    text-decoration: none; font-size: .855rem; font-weight: 500;
+    border-left: 3px solid transparent; transition: all .18s;
+}
+.sb-link i { width: 18px; text-align: center; font-size: .95rem; }
+.sb-link:hover { background: var(--sidebar-hover); color: #fff; }
+.sb-link.active { background: rgba(13,110,253,.14); color: #fff; border-left-color: var(--accent); }
+
+/* ── Main wrapper ── */
+#main { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Topbar ── */
+#topbar {
+    height: var(--topbar-h); background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; padding: 0 22px; gap: 14px;
+    position: sticky; top: 0; z-index: 900;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.topbar-title { font-size: 1.05rem; font-weight: 700; color: #1b2838; flex: 1; }
+.topbar-pill {
+    background: #e8f0fe; color: var(--accent);
+    font-size: .72rem; font-weight: 600;
+    padding: 3px 11px; border-radius: 20px;
+}
+
+/* ── Page content ── */
+#content { padding: 22px; flex: 1; }
+
+/* ── Stat cards ── */
+.stat-card {
+    background: #fff; border-radius: 12px;
+    padding: 18px 20px; box-shadow: var(--card-shadow);
+    display: flex; align-items: center; gap: 15px;
+    transition: transform .18s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-icon {
+    width: 50px; height: 50px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem; flex-shrink: 0;
+}
+.ic-blue   { background: #e8f0fe; color: #0d6efd; }
+.ic-green  { background: #e6f9f0; color: #198754; }
+.ic-orange { background: #fff3e0; color: #fd7e14; }
+.ic-red    { background: #fde8e8; color: #dc3545; }
+.ic-purple { background: #f0e8fe; color: #6f42c1; }
+.ic-teal   { background: #e0f7f7; color: #0dcaf0; }
+.ic-gray   { background: #f0f2f5; color: #6c757d; }
+
+.stat-val   { font-size: 1.75rem; font-weight: 700; line-height: 1; color: #1b2838; }
+.stat-label { font-size: .76rem; color: #718096; margin-top: 3px; }
+
+/* ── Section card ── */
+.s-card { background: #fff; border-radius: 12px; box-shadow: var(--card-shadow); overflow: hidden; }
+.s-card-head {
+    padding: 14px 18px; border-bottom: 1px solid #f0f2f5;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+}
+.s-card-head h6 { margin: 0; font-weight: 700; font-size: .92rem; color: #1b2838; }
+
+/* ── Tables ── */
+.tbl { margin: 0; font-size: .84rem; }
+.tbl thead th {
+    background: #f8f9fb; color: #5a6a7a;
+    font-weight: 600; font-size: .72rem;
+    text-transform: uppercase; letter-spacing: .4px;
+    border-bottom: 2px solid #e8ecf0; padding: 11px 14px;
+    white-space: nowrap;
+}
+.tbl tbody td { padding: 11px 14px; vertical-align: middle; border-color: #f0f2f5; }
+.tbl tbody tr:hover { background: #f8f9fb; }
+
+/* ── Forms ── */
+.form-label { font-size: .8rem; font-weight: 600; color: #445566; margin-bottom: 3px; }
+.form-control, .form-select {
+    font-size: .875rem; border-color: #dde2ea; border-radius: 8px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,110,253,.1);
+}
+
+/* ── Buttons ── */
+.btn { border-radius: 8px; font-size: .84rem; font-weight: 500; }
+.btn-sm { padding: 4px 10px; font-size: .77rem; }
+
+/* ── Search box ── */
+.search-wrap { position: relative; }
+.search-wrap .bi { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #aaa; }
+.search-wrap input { padding-left: 32px; }
+
+/* ── Alert strip ── */
+.alert-strip {
+    background: #fff8e1; border: 1px solid #ffe082;
+    border-radius: 10px; padding: 11px 15px;
+    font-size: .84rem; color: #7a5c00;
+    display: flex; align-items: center; gap: 9px;
+}
+
+/* ── Toast ── */
+#toastContainer { position: fixed; bottom: 22px; right: 22px; z-index: 9999; min-width: 270px; }
+
+/* ── Charts ── */
+.chart-wrap { padding: 14px; position: relative; }
+
+/* ── Modal ── */
+.modal-header { background: #1b2838; color: #fff; }
+.modal-header .btn-close { filter: invert(1); }
+.modal-title { font-size: .97rem; font-weight: 700; }
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+    #sidebar { transform: translateX(-100%); transition: transform .25s; }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #content { padding: 14px; }
+}

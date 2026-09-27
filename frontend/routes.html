@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Routes — Transport Management System</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<nav id="sidebar">
+
+    <a class="sb-brand" href="index.html">
+
+        <i class="bi bi-truck-front-fill"></i>
+
+        <span class="brand-name">
+            Transport Management
+        </span>
+
+        <span class="brand-sub">
+            Operations System
+        </span>
+
+    </a>
+
+
+    <div class="sb-section">
+        Main Menu
+    </div>
+
+
+    <a href="index.html" class="sb-link">
+        <i class="bi bi-speedometer2"></i>
+        Dashboard
+    </a>
+
+
+    <a href="vehicles.html" class="sb-link">
+        <i class="bi bi-truck"></i>
+        Vehicles
+    </a>
+
+
+    <a href="drivers.html" class="sb-link">
+        <i class="bi bi-person-badge"></i>
+        Drivers
+    </a>
+
+
+    <a href="routes.html" class="sb-link active">
+        <i class="bi bi-map"></i>
+        Routes
+    </a>
+
+
+    <a href="trips.html" class="sb-link">
+        <i class="bi bi-calendar-check"></i>
+        Trips
+    </a>
+
+
+    <a href="maintenance.html" class="sb-link">
+        <i class="bi bi-tools"></i>
+        Maintenance
+    </a>
+
+
+    <div class="sb-section">
+        Analytics
+    </div>
+
+
+    <a href="reports.html" class="sb-link">
+        <i class="bi bi-bar-chart-line"></i>
+        Reports
+    </a>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div id="main">
+
+
+    <!-- TOP BAR -->
+
+    <div id="topbar">
+
+        <span class="topbar-title">
+
+            <i class="bi bi-map me-2 text-primary"></i>
+
+            Route Management
+
+        </span>
+
+
+        <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            id="addRouteBtn">
+
+            <i class="bi bi-plus-lg me-1"></i>
+
+            Add Route
+
+        </button>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div id="content">
+
+
+        <!-- =================================================
+             SEARCH & FILTER
+        ================================================== -->
+
+        <div class="s-card mb-3">
+
+            <div class="s-card-head">
+
+                <h6>
+
+                    <i class="bi bi-funnel me-2"></i>
+
+                    Search & Filter
+
+                </h6>
+
+            </div>
+
+
+            <div class="p-3">
+
+                <div class="row g-2">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-md-6">
+
+                        <div class="search-wrap">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-control form-control-sm"
+                                placeholder="Search by source or destination…">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="col-md-4">
+
+                        <select
+                            id="statusFilter"
+                            class="form-select form-select-sm">
+
+                            <option value="">
+                                All Statuses
+                            </option>
+
+                            <option value="ACTIVE">
+                                ACTIVE
+                            </option>
+
+                            <option value="INACTIVE">
+                                INACTIVE
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CLEAR -->
+
+                    <div class="col-md-2">
+
+                        <button
+                            type="button"
+                            id="clearFiltersBtn"
+                            class="btn btn-outline-secondary btn-sm w-100">
+
+                            <i class="bi bi-x-lg"></i>
+
+                            Clear
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ROUTES TABLE
+        ================================================== -->
+
+        <div class="s-card">
+
+            <div class="s-card-head">
+
+                <h6>
+
+                    <i class="bi bi-list-ul me-2"></i>
+
+                    All Routes
+
+                    <span
+                        class="badge bg-secondary ms-1"
+                        id="routeCount">
+
+                        0
+
+                    </span>
+
+                </h6>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table tbl">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Source</th>
+
+                            <th>Destination</th>
+
+                            <th>Distance (km)</th>
+
+                            <th>Est. Duration</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="routesTbl">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="text-center py-4 text-muted">
+
+                                Loading…
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ADD / EDIT ROUTE MODAL
+========================================================= -->
+
+<div
+    class="modal fade"
+    id="routeModal"
+    tabindex="-1"
+    aria-hidden="true">
+
+
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title"
+                    id="routeModalTitle">
+
+                    Add Route
+
+                </h5>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+
+                </button>
+
+            </div>
+
+
+            <!-- BODY -->
+
+            <div class="modal-body">
+
+
+                <form id="routeForm">
+
+
+                    <!-- HIDDEN ID -->
+
+                    <input
+                        type="hidden"
+                        id="routeId">
+
+
+                    <div class="row g-3">
+
+
+                        <!-- SOURCE -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label">
+
+                                Source *
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="routeSource"
+                                class="form-control"
+                                placeholder="e.g. Chennai"
+                                required>
+
+                        </div>
+
+
+                        <!-- DESTINATION -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label">
+
+                                Destination *
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="routeDestination"
+                                class="form-control"
+                                placeholder="e.g. Bangalore"
+                                required>
+
+                        </div>
+
+
+                        <!-- DISTANCE -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label">
+
+                                Distance (km)
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="distanceKm"
+                                class="form-control"
+                                step="0.1"
+                                min="0"
+                                placeholder="e.g. 350"
+                                required>
+
+                        </div>
+
+
+                        <!-- DURATION -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label">
+
+                                Est. Duration (minutes)
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="estimatedDurationMinutes"
+                                class="form-control"
+                                min="1"
+                                placeholder="e.g. 420"
+                                required>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label">
+
+                                Status
+
+                            </label>
+
+
+                            <select
+                                id="routeStatus"
+                                class="form-select">
+
+                                <option value="ACTIVE">
+                                    ACTIVE
+                                </option>
+
+                                <option value="INACTIVE">
+                                    INACTIVE
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer">
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="saveRouteBtn">
+
+                    <i class="bi bi-save me-1"></i>
+
+                    Save Route
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     VIEW ROUTE MODAL
+========================================================= -->
+
+<div
+    class="modal fade"
+    id="viewRouteModal"
+    tabindex="-1"
+    aria-hidden="true">
+
+
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    Route Details
+
+                </h5>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="modal-body"
+                id="routeDetails">
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toastContainer"
+    class="toast-container position-fixed bottom-0 end-0 p-3">
+
+</div>
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script src="js/api.js"></script>
+
+
+<script src="js/routes.js"></script>
+
+
+</body>
+
+</html>

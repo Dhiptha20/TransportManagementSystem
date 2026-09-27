@@ -1,0 +1,23 @@
+# Java / Maven
+backend/target/
+*.class
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+application-local.properties
+
+# JavaScript dependencies
+node_modules/
+backend/target/
